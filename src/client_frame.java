@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class client_frame extends javax.swing.JFrame
 {
-    String username, address = "localhost";
+    String username, address = "localhost",type;
     ArrayList<String> users = new ArrayList();
     int port = 0007;
     Boolean isConnected = false;
@@ -98,7 +98,6 @@ public class client_frame extends javax.swing.JFrame
                     }
                     else if (data[2].equals(done))
                     {
-//users.setText("");
                         writeUsers();
                         users.clear();
                     }
@@ -127,11 +126,15 @@ public class client_frame extends javax.swing.JFrame
         lb_name = new javax.swing.JLabel();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chat - Client's frame");
-        setName("client"); // NOI18N
+        setName("client");
         setResizable(false);
-        lb_address.setText("Address : ");
-        tf_address.setText("localhost");
-        tf_address.addActionListener(this::tf_addressActionPerformed);
+        lb_address.setText("Type : ");
+        tf_address.setText("T or S");
+        tf_address.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_addressActionPerformed(evt);
+            }
+        });
         lb_port.setText("Port :");
         tf_port.setText("2222");
         tf_port.addActionListener(new java.awt.event.ActionListener() {
@@ -274,6 +277,7 @@ public class client_frame extends javax.swing.JFrame
     private void b_connectActionPerformed(java.awt.event.ActionEvent evt) {
         if (isConnected == false)
         {
+            type = tf_address.getText();
             username = tf_username.getText();
             tf_username.setEditable(false);
             try
@@ -282,7 +286,7 @@ public class client_frame extends javax.swing.JFrame
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
-                writer.println(username + ":has connected.:Connect");
+                writer.println(type+" "+username + ":has connected.:Connect");
                 writer.flush();
                 isConnected = true;
             }
@@ -320,7 +324,7 @@ public class client_frame extends javax.swing.JFrame
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
-                writer.println(anon + ":has connected.:Connect");
+                writer.println(type+" "+ anon + ":has connected.:Connect");
                 writer.flush();
                 isConnected = true;
             }
@@ -343,7 +347,7 @@ public class client_frame extends javax.swing.JFrame
         } else {
 
             try {
-                writer.println(username + ":" + tf_chat.getText() + ":" + "Chat");
+                writer.println(type+" "+ username + ":" + tf_chat.getText() + ":" + "Chat");
                 writer.flush(); // flushes the buffer
             } catch (Exception ex) {
                 ta_chat.append("Message was not sent. \n");
