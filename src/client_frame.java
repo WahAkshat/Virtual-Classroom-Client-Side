@@ -1,4 +1,4 @@
-package sample;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -108,21 +108,13 @@ public class client_frame extends javax.swing.JFrame
             }catch(Exception ex) { }
         }
     }
-    //--------------------------//
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
         lb_address = new javax.swing.JLabel();
-        tf_address = new javax.swing.JTextField("T or F");
-        lb_port = new javax.swing.JLabel();
-        tf_port = new javax.swing.JTextField();
+        tf_address = new javax.swing.JTextField("T or S");
         lb_username = new javax.swing.JLabel();
-        tf_username = new javax.swing.JTextField("Username");
-        lb_password = new javax.swing.JLabel();
-        tf_password = new javax.swing.JTextField();
+        tf_username = new javax.swing.JTextField("NAME");
         b_connect = new javax.swing.JButton();
         b_disconnect = new javax.swing.JButton();
-        b_anonymous = new javax.swing.JButton();
-        b_anonymous.setVisible(false);
         jScrollPane1 = new javax.swing.JScrollPane();
         ta_chat = new javax.swing.JTextArea();
         tf_chat = new javax.swing.JTextField();
@@ -132,32 +124,20 @@ public class client_frame extends javax.swing.JFrame
         setTitle("Chat - Client's frame");
         setName("client");
         setResizable(false);
-        lb_address.setText("Type : ");
+        lb_address.setText("TYPE : ");
         tf_address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_addressActionPerformed(evt);
             }
         });
-        lb_port.setText("Port :");
-        lb_port.setVisible(false);
-        tf_port.setText("2222");
-        tf_port.setVisible(false);
-        tf_port.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_portActionPerformed(evt);
-            }
-        });
-        lb_username.setText("Username :");
+        lb_username.setText("NAME :");
         tf_username.getBorder();
         tf_username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_usernameActionPerformed(evt);
             }
         });
-        lb_password.setText("Password : ");
-        tf_password.setText("Enter Password");
-        tf_password.getBorder();
-        b_connect.setText("Connect");
+        b_connect.setText("CONNECT");
         b_connect.setBackground(Color.GREEN);
         b_connect.getBorder();
         b_connect.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +145,7 @@ public class client_frame extends javax.swing.JFrame
                 b_connectActionPerformed(evt);
             }
         });
-        b_disconnect.setText("Disconnect");
+        b_disconnect.setText("DISCONNECT");
         b_disconnect.setBackground(Color.red);
         b_disconnect.getBorder();
         b_disconnect.addActionListener(new java.awt.event.ActionListener() {
@@ -214,26 +194,16 @@ public class client_frame extends javax.swing.JFrame
                                                                 Short.MAX_VALUE)
                                                         .addComponent(tf_username))
                                                 .addGap(18, 18, 18)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(lb_password, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-
-                                                        .addComponent(lb_port, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(tf_password)
-                                                        .addComponent(tf_port, javax.swing.GroupLayout.DEFAULT_SIZE, 50,
-                                                                Short.MAX_VALUE))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addComponent(b_connect)
-                                                                .addGap(2, 2, 2)
+                                                                .addGap(50, 50, 50)
                                                                 .addComponent(b_disconnect)
-                                                                .addGap(0, 0, Short.MAX_VALUE))
-                                                        .addComponent(b_anonymous, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                                .addGap(50, 50, 50)))))
                                 .addContainerGap())
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
                                 layout.createSequentialGroup()
@@ -248,28 +218,22 @@ public class client_frame extends javax.swing.JFrame
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(lb_address)
                                         .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lb_port)
-                                        .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(b_anonymous))
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(tf_username)
-                                        .addComponent(tf_password)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(lb_username)
-                                                .addComponent(lb_password)
                                                 .addComponent(b_connect)
                                                 .addComponent(b_disconnect)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310,
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
 
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(tf_chat)
-                                        .addComponent(b_send, javax.swing.GroupLayout.DEFAULT_SIZE, 31,
+                                        .addComponent(b_send, javax.swing.GroupLayout.DEFAULT_SIZE, 45,
                                                 Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lb_name))
@@ -384,21 +348,16 @@ public class client_frame extends javax.swing.JFrame
         });
     }
     // Variables declaration - do not modify
-    private javax.swing.JButton b_anonymous;
     private javax.swing.JButton b_connect;
     private javax.swing.JButton b_disconnect;
     private javax.swing.JButton b_send;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_address;
     private javax.swing.JLabel lb_name;
-    private javax.swing.JLabel lb_password;
-    private javax.swing.JLabel lb_port;
     private javax.swing.JLabel lb_username;
     private javax.swing.JTextArea ta_chat;
     private javax.swing.JTextField tf_address;
     private javax.swing.JTextField tf_chat;
-    private javax.swing.JTextField tf_password;
-    private javax.swing.JTextField tf_port;
     private javax.swing.JTextField tf_username;
 // End of variables declaration
 }
