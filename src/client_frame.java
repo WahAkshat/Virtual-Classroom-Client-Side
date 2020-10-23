@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class client_frame extends javax.swing.JFrame
 {
+    String File_name;
+    String Location;
     String username, address = "localhost",type;
     ArrayList<String> users = new ArrayList();
     int port = 0007;
@@ -110,6 +112,8 @@ public class client_frame extends javax.swing.JFrame
     }
     private void initComponents() {
         lb_address = new javax.swing.JLabel();
+        lb_Name_url=new javax.swing.JLabel("FILE-DETAILS :");
+        tf_Name_url=new javax.swing.JTextField("NAME/LOC");
         tf_address = new javax.swing.JTextField("T or S");
         lb_username = new javax.swing.JLabel();
         tf_username = new javax.swing.JTextField("NAME");
@@ -126,6 +130,7 @@ public class client_frame extends javax.swing.JFrame
         setTitle("Chat - Client's frame");
         setName("client");
         setResizable(false);
+
         lb_address.setText("TYPE : ");
 //        tf_address.addActionListener(new java.awt.event.ActionListener() {
 //            public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,6 +195,7 @@ public class client_frame extends javax.swing.JFrame
         lb_name.setText("OS PROJECT");
         lb_name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0,
                 0)));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -209,6 +215,7 @@ public class client_frame extends javax.swing.JFrame
 
                                         .addGroup(layout.createSequentialGroup()
 
+
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                         .addComponent(lb_username, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 62, Short.MAX_VALUE)
@@ -220,9 +227,23 @@ public class client_frame extends javax.swing.JFrame
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(tf_address, javax.swing.GroupLayout.DEFAULT_SIZE, 89,
                                                                 Short.MAX_VALUE)
+
                                                         .addComponent(tf_username))
 
                                                 .addGap(18, 18, 18)
+
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(lb_Name_url, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                62, Short.MAX_VALUE))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(tf_Name_url, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                62, Short.MAX_VALUE))
+
+
+
+
+
 
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -248,6 +269,7 @@ public class client_frame extends javax.swing.JFrame
                                                                 .addGap(50, 50, 50))
 
                                                 )
+
                                         )
 
                                 )
@@ -265,7 +287,9 @@ public class client_frame extends javax.swing.JFrame
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(lb_address)
                                         .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lb_Name_url)
+                                .addComponent(tf_Name_url))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(tf_username)
@@ -293,8 +317,11 @@ public class client_frame extends javax.swing.JFrame
 //    private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {
 //    }
     private void b_sendFileActionPerformed(java.awt.event.ActionEvent evt) {
+        Location=tf_Name_url.getText();
+
     }
     private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) {
+        File_name=tf_Name_url.getText();
     }
     private void tf_usernameActionPerformed(java.awt.event.ActionEvent evt) {
     }
@@ -407,6 +434,8 @@ public class client_frame extends javax.swing.JFrame
     private javax.swing.JButton b_send;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_address;
+    private javax.swing.JLabel lb_Name_url;
+    private javax.swing.JTextField tf_Name_url;
     private javax.swing.JLabel lb_name;
     private javax.swing.JLabel lb_username;
     private javax.swing.JTextArea ta_chat;
