@@ -113,6 +113,8 @@ public class client_frame extends javax.swing.JFrame
         tf_address = new javax.swing.JTextField("T or S");
         lb_username = new javax.swing.JLabel();
         tf_username = new javax.swing.JTextField("NAME");
+        b_sendFile = new javax.swing.JButton();
+        b_receiveFile = new javax.swing.JButton();
         b_connect = new javax.swing.JButton();
         b_disconnect = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -125,11 +127,11 @@ public class client_frame extends javax.swing.JFrame
         setName("client");
         setResizable(false);
         lb_address.setText("TYPE : ");
-        tf_address.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_addressActionPerformed(evt);
-            }
-        });
+//        tf_address.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                tf_addressActionPerformed(evt);
+//            }
+//        });
         lb_username.setText("NAME :");
         tf_username.getBorder();
         tf_username.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +139,26 @@ public class client_frame extends javax.swing.JFrame
                 tf_usernameActionPerformed(evt);
             }
         });
+
+        b_sendFile.setText("SEND FILE");
+        b_sendFile.setBackground(Color.MAGENTA);
+        b_sendFile.getBorder();
+        b_sendFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_sendFileActionPerformed(evt);
+            }
+        });
+
+        b_receiveFile.setText("RECEIVE FILE");
+        b_receiveFile.setBackground(Color.CYAN);
+        b_receiveFile.getBorder();
+        b_receiveFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_receiveFileActionPerformed(evt);
+            }
+        });
+
+
         b_connect.setText("CONNECT");
         b_connect.setBackground(Color.GREEN);
         b_connect.getBorder();
@@ -175,35 +197,60 @@ public class client_frame extends javax.swing.JFrame
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
+
+                                                .addGroup(layout.createSequentialGroup()
                                                 .addComponent(tf_chat, javax.swing.GroupLayout.PREFERRED_SIZE, 352,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(b_send, javax.swing.GroupLayout.DEFAULT_SIZE, 111,
                                                         Short.MAX_VALUE))
+
                                         .addComponent(jScrollPane1)
+
                                         .addGroup(layout.createSequentialGroup()
+
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                         .addComponent(lb_username, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 62, Short.MAX_VALUE)
                                                         .addComponent(lb_address, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+
                                                 .addGap(18, 18, 18)
+
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(tf_address, javax.swing.GroupLayout.DEFAULT_SIZE, 89,
                                                                 Short.MAX_VALUE)
                                                         .addComponent(tf_username))
+
                                                 .addGap(18, 18, 18)
+
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createSequentialGroup()
+
                                                                 .addComponent(b_connect)
                                                                 .addGap(50, 50, 50)
                                                                 .addComponent(b_disconnect)
-                                                                .addGap(50, 50, 50)))))
+                                                                .addGap(50, 50, 50))
+
+                                                )
+
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+
+                                                                .addComponent(b_sendFile)
+                                                                .addGap(50, 50, 50)
+                                                                .addComponent(b_receiveFile)
+                                                                .addGap(50, 50, 50))
+
+                                                )
+                                        )
+
+                                )
                                 .addContainerGap())
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
                                 layout.createSequentialGroup()
@@ -225,7 +272,10 @@ public class client_frame extends javax.swing.JFrame
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(lb_username)
                                                 .addComponent(b_connect)
-                                                .addComponent(b_disconnect)))
+                                                .addComponent(b_disconnect)
+                                                .addComponent(b_sendFile)
+                                                .addComponent(b_receiveFile)
+                                        ))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -240,9 +290,11 @@ public class client_frame extends javax.swing.JFrame
         );
         pack();
     }// </editor-fold>
-    private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {
+//    private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {
+//    }
+    private void b_sendFileActionPerformed(java.awt.event.ActionEvent evt) {
     }
-    private void tf_portActionPerformed(java.awt.event.ActionEvent evt) {
+    private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) {
     }
     private void tf_usernameActionPerformed(java.awt.event.ActionEvent evt) {
     }
@@ -348,6 +400,8 @@ public class client_frame extends javax.swing.JFrame
         });
     }
     // Variables declaration - do not modify
+    private javax.swing.JButton b_sendFile;
+    private javax.swing.JButton b_receiveFile;
     private javax.swing.JButton b_connect;
     private javax.swing.JButton b_disconnect;
     private javax.swing.JButton b_send;
