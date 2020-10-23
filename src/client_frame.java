@@ -1,17 +1,14 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class client_frame extends javax.swing.JFrame
 {
-    String File_name;
-    String Location;
+
     String username, address = "localhost",type;
     ArrayList<String> users = new ArrayList();
     int port = 0007;
@@ -68,6 +65,67 @@ public class client_frame extends javax.swing.JFrame
         isConnected = false;
         tf_username.setEditable(true);
     }
+
+   String File_name;
+   String Location;
+
+    public void sendFile() {
+        try {
+
+            File myFile = new File(Location);
+            byte[] mybytearray = new byte[(int) myFile.length()];
+            if(!myFile.exists()) {
+                System.out.println("File does not exist..");
+                return;
+            }
+
+            FileInputStream fis = new FileInputStream(myFile);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            //bis.read(mybytearray, 0, mybytearray.length);
+
+            DataInputStream dis = new DataInputStream(bis);
+            dis.readFully(mybytearray, 0, mybytearray.length);
+
+            OutputStream os = sock.getOutputStream();
+
+            //Sending file name and file size to the server
+            DataOutputStream dos = new DataOutputStream(os);
+            dos.writeUTF(myFile.getName());
+            dos.writeLong(mybytearray.length);
+            dos.write(mybytearray, 0, mybytearray.length);
+            dos.flush();
+            System.out.println("File "+Location+" sent to Server.");
+        } catch (Exception e) {
+            System.err.println("Exceptionnnn: "+e);
+        }
+    }
+
+    public void receiveFile(String fileName) {
+        try {
+            int bytesRead;
+            InputStream in = sock.getInputStream();
+
+            DataInputStream clientData = new DataInputStream(in);
+
+            fileName = clientData.readUTF();
+            OutputStream output = new FileOutputStream(fileName);
+            long size = clientData.readLong();
+            byte[] buffer = new byte[1024];
+            while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
+                output.write(buffer, 0, bytesRead);
+                size -= bytesRead;
+            }
+
+            output.close();
+            in.close();
+
+            System.out.println("File "+fileName+" received from Server.");
+        } catch (IOException ex) {
+            System.out.println("Exception: "+ex);
+        }
+
+    }
+
     public client_frame()
     {
         initComponents();
@@ -87,6 +145,7 @@ public class client_frame extends javax.swing.JFrame
                 while ((stream = reader.readLine()) != null)
                 {
                     data = stream.split(":");
+
                     if (data[2].equals(chat))
                     {
                         ta_chat.append(data[0] + ": " + data[1] + "\n");
@@ -110,6 +169,8 @@ public class client_frame extends javax.swing.JFrame
             }catch(Exception ex) { }
         }
     }
+
+
     private void initComponents() {
         lb_address = new javax.swing.JLabel();
         lb_Name_url=new javax.swing.JLabel("FILE-DETAILS :");
@@ -318,10 +379,36 @@ public class client_frame extends javax.swing.JFrame
 //    }
     private void b_sendFileActionPerformed(java.awt.event.ActionEvent evt) {
         Location=tf_Name_url.getText();
+        sendFile();
 
-    }
+        try {
+            writer.println(type+" "+ username + ":" + Location + ":" + "Send");
+            writer.flush(); // flushes the buffer
+            }
+        catch (Exception ex) {
+            ta_chat.append("File was not sent. \n");
+            }
+
+        tf_Name_url.setText("");
+        tf_Name_url.requestFocus();
+        }
+
+
     private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) {
         File_name=tf_Name_url.getText();
+        receiveFile(File_name);
+
+        try {
+            writer.println(type+" "+ username + ":" + tf_Name_url.getText() + ":" + "Receive");
+            writer.flush(); // flushes the buffer
+        }
+        catch (Exception ex) {
+            ta_chat.append("File was not received. \n");
+        }
+
+        tf_Name_url.setText("");
+        tf_Name_url.requestFocus();
+
     }
     private void tf_usernameActionPerformed(java.awt.event.ActionEvent evt) {
     }
@@ -426,6 +513,8 @@ public class client_frame extends javax.swing.JFrame
             }
         });
     }
+
+
     // Variables declaration - do not modify
     private javax.swing.JButton b_sendFile;
     private javax.swing.JButton b_receiveFile;
