@@ -42,7 +42,7 @@ public class client_frame extends javax.swing.JFrame
     //--------------------------//
     public void sendDisconnect()
     {
-        String bye = (username + ": :Disconnect");
+        String bye = (username + "- -Disconnect");
         try
         {
             writer.println(bye);
@@ -100,6 +100,7 @@ public class client_frame extends javax.swing.JFrame
         }
     }
 
+
     public void receiveFile(String fileName) {
         try {
             int bytesRead;
@@ -107,24 +108,27 @@ public class client_frame extends javax.swing.JFrame
 
             DataInputStream clientData = new DataInputStream(in);
 
-            fileName = clientData.readUTF();
             OutputStream output = new FileOutputStream(fileName);
-            long size = clientData.readLong();
+
+//            System.out.println(clientData.readUTF());
+            long size = clientData.available();
+
             byte[] buffer = new byte[1024];
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }
 
-            output.close();
-            in.close();
+
+            output.flush();
 
             System.out.println("File "+fileName+" received from Server.");
-        } catch (IOException ex) {
+                 } catch (IOException ex) {
             System.out.println("Exception: "+ex);
         }
 
     }
+
 
     public client_frame()
     {
@@ -144,12 +148,13 @@ public class client_frame extends javax.swing.JFrame
             {
                 while ((stream = reader.readLine()) != null)
                 {
-                    data = stream.split(":");
+                    data = stream.split("-");
 
                     if (data[2].equals(chat))
                     {
-                        ta_chat.append(data[0] + ": " + data[1] + "\n");
+                        ta_chat.append(data[0] + "- " + data[1] + "\n");
                         ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
+                        System.out.println(ta_chat.getText());
                     }
                     else if (data[2].equals(connect))
                     {
@@ -220,7 +225,11 @@ public class client_frame extends javax.swing.JFrame
         b_receiveFile.getBorder();
         b_receiveFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_receiveFileActionPerformed(evt);
+                try {
+                    b_receiveFileActionPerformed(evt);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -379,10 +388,10 @@ public class client_frame extends javax.swing.JFrame
 //    }
     private void b_sendFileActionPerformed(java.awt.event.ActionEvent evt) {
         Location=tf_Name_url.getText();
-        sendFile();
+
 
         try {
-            writer.println(type+" "+ username + ":" + Location + ":" + "Send");
+            writer.println(type+" "+ username + "-" + Location + "-" + "Send");
             writer.flush(); // flushes the buffer
             }
         catch (Exception ex) {
@@ -391,23 +400,29 @@ public class client_frame extends javax.swing.JFrame
 
         tf_Name_url.setText("");
         tf_Name_url.requestFocus();
+
+        sendFile();
+
         }
 
 
-    private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) {
+    private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException {
         File_name=tf_Name_url.getText();
-        receiveFile(File_name);
+
 
         try {
-            writer.println(type+" "+ username + ":" + tf_Name_url.getText() + ":" + "Receive");
+            writer.println(type+" "+ username + "-" + tf_Name_url.getText() + "-" + "Receive");
             writer.flush(); // flushes the buffer
+            System.out.println("done till here");
         }
         catch (Exception ex) {
             ta_chat.append("File was not received. \n");
         }
 
         tf_Name_url.setText("");
-        tf_Name_url.requestFocus();
+//        tf_Name_url.requestFocus();
+
+        receiveFile(File_name);
 
     }
     private void tf_usernameActionPerformed(java.awt.event.ActionEvent evt) {
@@ -424,7 +439,7 @@ public class client_frame extends javax.swing.JFrame
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
-                writer.println(type+" "+username + ":has connected.:Connect");
+                writer.println(type+" "+username + "-has connected.-Connect");
                 writer.flush();
                 isConnected = true;
             }
@@ -462,7 +477,7 @@ public class client_frame extends javax.swing.JFrame
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
-                writer.println(type+" "+ anon + ":has connected.:Connect");
+                writer.println(type+" "+ anon + "-has connected.-Connect");
                 writer.flush();
                 isConnected = true;
             }
@@ -485,7 +500,7 @@ public class client_frame extends javax.swing.JFrame
         } else {
 
             try {
-                writer.println(type+" "+ username + ":" + tf_chat.getText() + ":" + "Chat");
+                writer.println(type+" "+ username + "-" + tf_chat.getText() + "-" + "Chat");
                 writer.flush(); // flushes the buffer
             } catch (Exception ex) {
                 ta_chat.append("Message was not sent. \n");
