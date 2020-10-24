@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class client_frame extends javax.swing.JFrame
@@ -101,33 +102,65 @@ public class client_frame extends javax.swing.JFrame
     }
 
 
-    public void receiveFile(String fileName) {
+    public void receiveFile() {
         try {
+
             int bytesRead;
+
             InputStream in = sock.getInputStream();
 
             DataInputStream clientData = new DataInputStream(in);
 
-            OutputStream output = new FileOutputStream(fileName);
+            OutputStream output = new FileOutputStream(File_name);
 
-//            System.out.println(clientData.readUTF());
-            long size = clientData.available();
+//           String  fileName2 = clientData.readUTF();
+           long size = clientData.available();
+
+            System.out.println(size);
 
             byte[] buffer = new byte[1024];
+
+
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
                 output.write(buffer, 0, bytesRead);
                 size -= bytesRead;
             }
 
+            System.out.println(Arrays.toString(buffer));
+
 
             output.flush();
 
-            System.out.println("File "+fileName+" received from Server.");
+            System.out.println("File "+File_name+" received from Server.");
                  } catch (IOException ex) {
             System.out.println("Exception: "+ex);
         }
 
     }
+
+//    public void receiveFile() {
+//        try {
+//            int bytesRead;
+//
+//            DataInputStream clientData = new DataInputStream(sock.getInputStream());
+//
+//            String fileName = clientData.readUTF();
+//            System.out.println(fileName);
+//            OutputStream output = new FileOutputStream(fileName);
+//            long size = clientData.readLong();
+//            byte[] buffer = new byte[1024];
+//            while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
+//                output.write(buffer, 0, bytesRead);
+//                size -= bytesRead;
+//            }
+//
+//            output.flush();
+//
+//            System.out.println("File "+fileName+" received from server.");
+//        } catch (Exception ex) {
+//            System.err.println("Client error. Connection closed.");
+//        }
+//    }
 
 
     public client_frame()
@@ -422,7 +455,7 @@ public class client_frame extends javax.swing.JFrame
         tf_Name_url.setText("");
 //        tf_Name_url.requestFocus();
 
-        receiveFile(File_name);
+        receiveFile();
 
     }
     private void tf_usernameActionPerformed(java.awt.event.ActionEvent evt) {
