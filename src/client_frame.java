@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -67,8 +66,8 @@ public class client_frame extends javax.swing.JFrame
         tf_username.setEditable(true);
     }
 
-   String File_name;
-   String Location;
+    String File_name;
+    String Location;
 
     public void sendFile() {
         try {
@@ -114,7 +113,7 @@ public class client_frame extends javax.swing.JFrame
             OutputStream output = new FileOutputStream(File_name);
 
 //           String  fileName2 = clientData.readUTF();
-           long size = clientData.available();
+            long size = clientData.available();
 
             System.out.println(size);
 
@@ -132,7 +131,7 @@ public class client_frame extends javax.swing.JFrame
             output.flush();
 
             System.out.println("File "+File_name+" received from Server.");
-                 } catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println("Exception: "+ex);
         }
 
@@ -307,7 +306,7 @@ public class client_frame extends javax.swing.JFrame
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 
-                                                .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createSequentialGroup()
                                                 .addComponent(tf_chat, javax.swing.GroupLayout.PREFERRED_SIZE, 352,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -391,8 +390,8 @@ public class client_frame extends javax.swing.JFrame
                                         .addComponent(lb_address)
                                         .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lb_Name_url)
-                                .addComponent(tf_Name_url))
+                                        .addComponent(lb_Name_url)
+                                        .addComponent(tf_Name_url))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(tf_username)
@@ -417,7 +416,7 @@ public class client_frame extends javax.swing.JFrame
         );
         pack();
     }// </editor-fold>
-//    private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {
+    //    private void tf_addressActionPerformed(java.awt.event.ActionEvent evt) {
 //    }
     private void b_sendFileActionPerformed(java.awt.event.ActionEvent evt) {
         Location=tf_Name_url.getText();
@@ -426,17 +425,17 @@ public class client_frame extends javax.swing.JFrame
         try {
             writer.println(type+" "+ username + "-" + Location + "-" + "Send");
             writer.flush(); // flushes the buffer
-            }
+        }
         catch (Exception ex) {
             ta_chat.append("File was not sent. \n");
-            }
+        }
 
         tf_Name_url.setText("");
         tf_Name_url.requestFocus();
 
         sendFile();
 
-        }
+    }
 
 
     private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException {
