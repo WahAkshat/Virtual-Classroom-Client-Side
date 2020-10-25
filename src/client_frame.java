@@ -13,7 +13,7 @@ public class client_frame extends javax.swing.JFrame
     ArrayList<String> users = new ArrayList();
     int port = 0007;
     Boolean isConnected = false;
-    Socket sock;
+    static Socket sock;
     BufferedReader reader;
     PrintWriter writer;
     //--------------------------//
@@ -66,10 +66,10 @@ public class client_frame extends javax.swing.JFrame
         tf_username.setEditable(true);
     }
 
-    String File_name;
-    String Location;
+   static String File_name;
+   static String Location;
 
-    public void sendFile() {
+    public static void sendFile() {
         try {
 
             File myFile = new File(Location);
@@ -86,6 +86,8 @@ public class client_frame extends javax.swing.JFrame
             DataInputStream dis = new DataInputStream(bis);
             dis.readFully(mybytearray, 0, mybytearray.length);
 
+            System.out.println(Arrays.toString(mybytearray));
+
             OutputStream os = sock.getOutputStream();
 
             //Sending file name and file size to the server
@@ -100,7 +102,6 @@ public class client_frame extends javax.swing.JFrame
         }
     }
 
-
     public void receiveFile() {
         try {
 
@@ -110,58 +111,31 @@ public class client_frame extends javax.swing.JFrame
 
             DataInputStream clientData = new DataInputStream(in);
 
+            System.out.println(File_name);
+
             OutputStream output = new FileOutputStream(File_name);
-
-//           String  fileName2 = clientData.readUTF();
-            long size = clientData.available();
-
-            System.out.println(size);
 
             byte[] buffer = new byte[1024];
 
-
-            while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
-                output.write(buffer, 0, bytesRead);
-                size -= bytesRead;
-            }
-
+            int a = clientData.read(buffer);
             System.out.println(Arrays.toString(buffer));
-
+            for(byte b:buffer){
+                if(b!=0)
+                    output.write(b);
+            }
 
             output.flush();
 
             System.out.println("File "+File_name+" received from Server.");
-        } catch (IOException ex) {
+           } catch (IOException ex) {
             System.out.println("Exception: "+ex);
         }
 
+        ListenThread();
+
+
+
     }
-
-//    public void receiveFile() {
-//        try {
-//            int bytesRead;
-//
-//            DataInputStream clientData = new DataInputStream(sock.getInputStream());
-//
-//            String fileName = clientData.readUTF();
-//            System.out.println(fileName);
-//            OutputStream output = new FileOutputStream(fileName);
-//            long size = clientData.readLong();
-//            byte[] buffer = new byte[1024];
-//            while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
-//                output.write(buffer, 0, bytesRead);
-//                size -= bytesRead;
-//            }
-//
-//            output.flush();
-//
-//            System.out.println("File "+fileName+" received from server.");
-//        } catch (Exception ex) {
-//            System.err.println("Client error. Connection closed.");
-//        }
-//    }
-
-
     public client_frame()
     {
         initComponents();
@@ -174,7 +148,7 @@ public class client_frame extends javax.swing.JFrame
         {
             String[] data;
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat =
-                    "Chat";
+                    "Chat",send="Send",receive="Receive";
 
             try
             {
@@ -202,6 +176,21 @@ public class client_frame extends javax.swing.JFrame
                         writeUsers();
                         users.clear();
                     }
+
+                    else if (data[2].equals(send)) {
+                        System.out.println("Yes send till this line 181");
+                        ta_chat.append(data[0] + "-" + data[1] + "-" + send +"\n");
+                        ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
+                        System.out.println(ta_chat.getText());
+
+                    }
+                    else if (data[2].equals(receive)) {
+                        System.out.println("Yes received at this line 188");
+                        System.out.println(data[1]);
+                        ta_chat.append(data[0] + "-" + data[1] + "-" + receive +"\n");
+                        ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
+                        System.out.println(ta_chat.getText());
+                                            }
                 }
             }catch(Exception ex) { }
         }
@@ -452,7 +441,7 @@ public class client_frame extends javax.swing.JFrame
         }
 
         tf_Name_url.setText("");
-//        tf_Name_url.requestFocus();
+        tf_Name_url.requestFocus();
 
         receiveFile();
 
