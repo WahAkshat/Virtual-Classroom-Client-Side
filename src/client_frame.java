@@ -18,6 +18,7 @@ public class client_frame extends javax.swing.JFrame
     PrintWriter writer;
     static String File_name;
     static String Location;
+    boolean receiveFlag = true;
 
     public void ListenThread()
     {
@@ -63,7 +64,7 @@ public class client_frame extends javax.swing.JFrame
         tf_username.setEditable(true);
     }
 
-    //function to send file to server
+    //function to send file to server/
     public static void sendFile()
     {
         try {
@@ -98,6 +99,10 @@ public class client_frame extends javax.swing.JFrame
         try {
             int bytesRead;
             InputStream in = sock.getInputStream();
+            if(in.available()==0){
+                receiveFlag = false;
+                return;
+            }
             DataInputStream clientData = new DataInputStream(in);
 
             //receiving file name and file size from server
@@ -112,6 +117,31 @@ public class client_frame extends javax.swing.JFrame
             }
             output.flush();
             output.close();
+
+            if(type.equals("S")) {
+
+                File old_fileName = new File(File_name);
+
+                String fName = File_name.substring(1);
+
+                File new_fileName = new File(fName);
+                new_fileName.createNewFile();
+
+                FileInputStream ins = null;
+                FileOutputStream outs = null;
+
+                ins = new FileInputStream(old_fileName);
+                outs = new FileOutputStream(new_fileName);
+                byte[] buffer1 = new byte[1024];
+                int length;
+
+                while ((length = ins.read(buffer)) > 0) {
+                    outs.write(buffer, 0, length);
+                }
+                ins.close();
+                outs.close();
+                old_fileName.delete();
+            }
             //System.out.println("File "+File_name+" received from Server.");
         }catch(IOException ex)
         {
@@ -160,15 +190,22 @@ public class client_frame extends javax.swing.JFrame
                         ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
                     }
                     else if (data[2].equals(receive)) {
-                        ta_chat.append(data[0] + "-" + data[1] + "-" + receive +"\n");
-                        ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
+                        if(receiveFlag) {
+                            ta_chat.append(data[0] + "-" + data[1] + "-" + receive + "\n");
+                            ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
+                        }
+                        else{
+                            ta_chat.append(data[0] + "-" + data[1] + "-" + "not received as file not uploaded by teacher or it's a student's upload"+ "\n");
+                            ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
+
+                        }
                     }
                 }
             }catch(Exception ex){ }
         }
     }
 
-    //user interface design
+    //user interface design/
     private void initComponents() {
         lb_address = new javax.swing.JLabel();
         lb_Name_url=new javax.swing.JLabel("FILE-DETAILS :");
@@ -349,7 +386,7 @@ public class client_frame extends javax.swing.JFrame
         pack();
     }
 
-    //button to send file to server
+    //button to send file to server/
     private void b_sendFileActionPerformed(java.awt.event.ActionEvent evt) {
         Location=tf_Name_url.getText();
         try {
@@ -365,7 +402,7 @@ public class client_frame extends javax.swing.JFrame
         sendFile();
     }
 
-    //button to receive file from server
+    //button to receive file from server/
     private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException {
         File_name=tf_Name_url.getText();
         try {
