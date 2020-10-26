@@ -18,7 +18,6 @@ public class client_frame extends javax.swing.JFrame
     PrintWriter writer;
     static String File_name;
     static String Location;
-    boolean receiveFlag = true;
 
     public void ListenThread()
     {
@@ -93,16 +92,12 @@ public class client_frame extends javax.swing.JFrame
         }
     }
 
-    //function to receive file from server
+    //function to receive file from server/
     public void receiveFile()
     {
         try {
             int bytesRead;
             InputStream in = sock.getInputStream();
-            if(in.available()==0){
-                receiveFlag = false;
-                return;
-            }
             DataInputStream clientData = new DataInputStream(in);
 
             //receiving file name and file size from server
@@ -117,6 +112,8 @@ public class client_frame extends javax.swing.JFrame
             }
             output.flush();
             output.close();
+            File new_fileName = null;
+
 
             if(type.equals("S")) {
 
@@ -124,7 +121,7 @@ public class client_frame extends javax.swing.JFrame
 
                 String fName = File_name.substring(1);
 
-                File new_fileName = new File(fName);
+                new_fileName  = new File(fName);
                 new_fileName.createNewFile();
 
                 FileInputStream ins = null;
@@ -142,11 +139,22 @@ public class client_frame extends javax.swing.JFrame
                 outs.close();
                 old_fileName.delete();
             }
+
+
+
             //System.out.println("File "+File_name+" received from Server.");
+        }
+        catch(EOFException ex)
+        {
+            ta_chat.append("End of the file reached run the application again\n");
+            sendDisconnect();
+            Disconnect();
+
         }catch(IOException ex)
         {
             System.out.println("Exception: "+ex);
         }
+
     }
 
     public client_frame()
@@ -190,14 +198,14 @@ public class client_frame extends javax.swing.JFrame
                         ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
                     }
                     else if (data[2].equals(receive)) {
-                        if(receiveFlag) {
+                        if(type.equals("T")) {
                             ta_chat.append(data[0] + "-" + data[1] + "-" + receive + "\n");
                             ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
                         }
                         else{
-                            ta_chat.append(data[0] + "-" + data[1] + "-" + "not received as file not uploaded by teacher or it's a student's upload"+ "\n");
+                            ta_chat.append("you would receive the file only if it is uploaded by faculty\n");
+                            ta_chat.append(data[0] + "-" + data[1] + "-" + receive + "\n");
                             ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
-
                         }
                     }
                 }
@@ -405,6 +413,8 @@ public class client_frame extends javax.swing.JFrame
     //button to receive file from server/
     private void b_receiveFileActionPerformed(java.awt.event.ActionEvent evt) throws FileNotFoundException {
         File_name=tf_Name_url.getText();
+        if(type.equals("S"))
+            File_name = "T"+File_name;
         try {
             writer.println(type+" "+ username + "-" + tf_Name_url.getText() + "-" + "Receive");
             writer.flush();
@@ -451,6 +461,7 @@ public class client_frame extends javax.swing.JFrame
     private void b_disconnectActionPerformed(java.awt.event.ActionEvent evt) {
         sendDisconnect();
         Disconnect();
+        System.exit(0);
     }
     private void b_anonymousActionPerformed(java.awt.event.ActionEvent evt) {
     }
