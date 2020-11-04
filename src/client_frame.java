@@ -3,8 +3,6 @@ import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 public class client_frame extends javax.swing.JFrame
 {
@@ -103,7 +101,7 @@ public class client_frame extends javax.swing.JFrame
             //receiving file name and file size from server
             File_name = clientData.readUTF();
             //System.out.println(File_name);
-            OutputStream output = new FileOutputStream(File_name);
+            OutputStream output = new FileOutputStream(File_name);//while writing in the file
             long size = clientData.readLong();
             byte[] buffer = new byte[1024];
             while (size > 0 && (bytesRead = clientData.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
@@ -192,7 +190,6 @@ public class client_frame extends javax.swing.JFrame
                         writeUsers();
                         users.clear();
                     }
-
                     else if (data[2].equals(send)) {
                         ta_chat.append(data[0] + "-" + data[1] + "-" + send +"\n");
                         ta_chat.setCaretPosition(ta_chat.getDocument().getLength());
